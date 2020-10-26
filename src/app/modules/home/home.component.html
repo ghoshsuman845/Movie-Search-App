@@ -1,0 +1,29 @@
+<app-dialog
+  [isOpen]="isOpen"
+  [selectedMovie]="selectedMovie"
+  [trailerUrl]="trailerUrl"
+  (close)="isOpen = false"></app-dialog>
+
+<div class="center-header">
+    <h1>Movie Search</h1>
+</div>
+
+<div class="row">
+  <input type="search" class="form-control" placeholder="search" [formControl]="searchField">
+  <span class="search-title">{{ (results | async)?.length ? 'Results' : 'Search' }}</span>
+</div>
+<div class="row wrapper">
+  <div class="no-res" *ngIf="(results | async)?.length === 0">Nothing matches this search.</div>
+  <div [ngClass]="{'dn': item?.poster_path == null}" class="col" *ngFor="let item of results | async">
+      <span class="item">
+          <span class="bg" [ngStyle]="{'background': 'linear-gradient(-225deg, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.5) 80%), url(https://image.tmdb.org/t/p/w440_and_h660_face'+ item?.poster_path +')' }">
+            <span class="info">
+              <p>
+                <span class="star-rating" *ngFor="let star of rating(item)"> <span>☆</span> </span><br>
+                <span class="trailer-link" (click)="openTrailer(item)">Trailer</span>
+              </p> 
+            </span>
+          </span>
+      </span>
+  </div>
+</div> 
